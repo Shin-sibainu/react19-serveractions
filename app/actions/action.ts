@@ -22,3 +22,7 @@ export async function addToCart(prevState, queryData) {
     return "Couldn't add to cart: the item is sold out.";
   }
 }
+
+export const submitData = async (formData: FormData) => {
+  
+};
