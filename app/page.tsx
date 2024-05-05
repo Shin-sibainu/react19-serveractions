@@ -9,9 +9,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       {/* <ServerAction /> */}
-      <ServerAction2 />
+      {/* <ServerAction2 /> */}
       {/* <ActionState /> */}
-      {/* <Optimistic /> */}
+      <Optimistic />
     </main>
   );
 }

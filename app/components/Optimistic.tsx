@@ -1,24 +1,22 @@
 "use client";
 
 import { useOptimistic, useRef, useState } from "react";
-import { submitData } from "../actions/action";
 
 type Message = {
   text: string;
-  sending: boolean;
-  key: number;
-} | null;
+  sending?: boolean;
+};
 
 const Optimistic = () => {
   const [messages, setMessages] = useState<Message[]>([
-    { text: "First Message", sending: false, key: 1 },
+    { text: "First Message", sending: false },
   ]);
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
   const [optimisticMessages, addOptimisticMessage] = useOptimistic<
     Message[],
-    any
+    string
   >(messages, (state, newMessage) => [
     ...state,
     {
@@ -28,12 +26,13 @@ const Optimistic = () => {
   ]);
 
   async function submitData(formData: FormData) {
-    const message = formData.get("message")!;
+    const message = formData.get("message") as string;
     console.log(message);
     addOptimisticMessage(message);
 
     formRef.current?.reset();
 
+    //実際にサーバー側でメッセージ追加のAPIを叩く
     await new Promise((res) => setTimeout(res, 1500));
     setMessages((messages) => [
       ...messages,

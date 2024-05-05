@@ -1,12 +1,9 @@
-import SignInButton2 from "./SignInButton2";
-
 const ServerAction2 = () => {
   async function formAction(formData: FormData) {
     "use server";
     console.log(formData.get("username"));
     // signIn
   }
-
   return (
     <div className="flex flex-col items-center justify-center h-screen w-[30rem]">
       <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
@@ -14,7 +11,7 @@ const ServerAction2 = () => {
           <div className="text-center">
             <h2 className="text-2xl font-bold">アカウントの作成</h2>
           </div>
-          <form className="space-y-4">
+          <form className="space-y-4" action={formAction}>
             <div>
               <label
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -46,7 +43,12 @@ const ServerAction2 = () => {
               />
             </div>
             <div>
-              <SignInButton2 onClick={formAction} />
+              <button
+                className="w-full rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                type="submit"
+              >
+                {"Sign Up"}
+              </button>
             </div>
           </form>
         </div>
