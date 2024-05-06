@@ -1,6 +1,7 @@
 "use client";
 
 import { useOptimistic, useRef, useState } from "react";
+import { submitData } from "../actions/action";
 
 type Message = {
   text: string;
@@ -25,22 +26,21 @@ const Optimistic = () => {
     },
   ]);
 
-  async function submitData(formData: FormData) {
-    const message = formData.get("message") as string;
-    console.log(message);
-    addOptimisticMessage(message);
+  // async function submitData(formData: FormData) {
+  //   const message = formData.get("message") as string;
+  //   addOptimisticMessage(message);
 
-    formRef.current?.reset();
+  //   formRef.current?.reset();
 
-    //実際にサーバー側でメッセージ追加のAPIを叩く
-    await new Promise((res) => setTimeout(res, 1500));
-    setMessages((messages) => [
-      ...messages,
-      {
-        text: message,
-      },
-    ]);
-  }
+  //   //実際にサーバー側でメッセージ追加のAPIを叩く
+  //   await new Promise((res) => setTimeout(res, 1500));
+  //   setMessages((messages) => [
+  //     ...messages,
+  //     {
+  //       text: message,
+  //     },
+  //   ]);
+  // }
 
   return (
     <div className="w-[30rem] mx-auto mt-10 bg-white p-8 border border-gray-300 rounded-lg shadow-sm">
@@ -52,7 +52,22 @@ const Optimistic = () => {
           </div>
         ))}
       </div>
-      <form className="space-y-5" action={submitData} ref={formRef}>
+      <form
+        className="space-y-5"
+        action={async (formData: FormData) => {
+          const message = formData.get("message") as string;
+          addOptimisticMessage(message);
+          formRef.current?.reset();
+          await submitData(message);
+          setMessages((messages) => [
+            ...messages,
+            {
+              text: message,
+            },
+          ]);
+        }}
+        ref={formRef}
+      >
         <h3 className="text-xl font-bold">useOptimistic Example</h3>
         <div>
           <label
